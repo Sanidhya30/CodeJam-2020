@@ -1,0 +1,64 @@
+t = int(input())
+i = 0
+
+while(i<t):
+    start = list()
+    end = list()
+    start_1 = list()
+    n = int(input())
+    J = -1
+    C = -1
+    s_1 = list()
+    s_2 = list()
+    imp = 0
+    s=""
+    for j in range(n):
+        ele = input()
+        a = ele.split(" ")
+        start_1.append(int(a[0]))
+        if(j == 0):
+            start.append(int(a[0]))
+            end.append(int(a[1]))
+        else:
+            for k in range(len(start)):
+                if(int(a[0])<start[k]):
+                    start.insert(k,int(a[0]))
+                    end.insert(k,int(a[1]))
+                    break
+                elif(k == len(start)-1):
+                    start.append(int(a[0]))
+                    end.append(int(a[1]))
+    for k in range(len(start)):
+        if(k==0):
+            J=k
+            s_1.append(start_1.index(start[k]))
+        else:
+            if(start[k]<end[J]):
+                if(start[k]>=end[C] or C==-1):
+                    C=k
+                    s_2.append(start_1.index(start[k]))
+                else:
+                    imp = 1
+                    break
+            elif(start[k]>=end[J]):
+                J=k
+                s_1.append(start_1.index(start[k]))
+    i+=1
+    if(imp == 1):
+        print("Case #%d: IMPOSSIBLE"%(i))
+        imp = 0
+    else:
+        temp = 0
+        while(temp<n):
+            if(temp in s_1):
+                s += "J"
+            else:
+                s += "C"
+            temp += 1
+        print("Case #%d:"%(i),s)
+    start.clear()
+    end.clear()
+    start_1.clear()
+    s_1.clear()
+    s_2.clear()
+    s=""
