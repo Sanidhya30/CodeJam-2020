@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int matrix[60][60], n, k, t;
+bool row_flag[60][60], col_flag[60][60], mat;
+
+void solver(int row, int col, int m) {
+    if (row == n && col == n + 1 && m == k && !mat) {
+        mat = true;
+        cout << "Case #" << t << ": " << "POSSIBLE\n";
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                cout << matrix[i][j] << " ";
+            }
+            cout << "\n";
+        }
+        return;
+    } else if (row > n) {
+        return;
+    } else if (col > n) {
+        solver(row + 1, 1, m);
+    }
+    for (int i = 1; i <= n && !mat; ++i) {
+        if (!row_flag[row][i] && !col_flag[col][i]) {
+            row_flag[row][i] = col_flag[col][i] = true;
+            if (row == col) {
+                m += i;
+            }
+            matrix[row][col] = i;
+
+            solver(row, col + 1, m);
+
+            row_flag[row][i] = col_flag[col][i] = false;
+            if (row == col) {
+                m -= i;
+            }
+            matrix[row][col] = 0;
+        }
+    }
+}
+
+int main() {
+    int T;
+    scanf(" %d", &T);
+    for (t = 1; t <= T; ++t) {
+        scanf(" %d %d", &n, &k);
+        solver(1, 1, 0);
+        if (!mat) {
+            cout << "Case #" << t << ": " << "IMPOSSIBLE\n";
+        }
+        mat = false;
+    }
+    return 0;
+}
