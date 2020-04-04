@@ -1,0 +1,40 @@
+t = int(input())
+i = 0
+bracket = ["","(","((","(((","((((","(((((","((((((","(((((((","((((((((","((((((((("]
+bracket_1 = ["",")","))",")))","))))",")))))","))))))",")))))))","))))))))",")))))))))"]
+while(i<t):
+    s = input()
+    first = 0
+    open_1 = 0
+    for j in s:
+        temp = int(j)
+        if(first == 0 and temp == 0):
+            s_1 = j
+            first=1
+        elif(first == 0):
+            s_1 = bracket[temp]+j
+            first=1
+            open_1 = temp
+        else:
+            if(temp==0):
+                if(open_1 == 0):
+                    s_1 = s_1+j
+                else:
+                    s_1 = s_1+bracket_1[open_1]+j
+                    open_1 = 0
+            else:
+                if(open_1 == 0):
+                    s_1 = s_1+bracket[temp]+j
+                    open_1 = temp
+                else:
+                    if(temp-open_1>0):
+                        s_1 = s_1+bracket[temp-open_1]+j
+                        open_1 = temp
+                    elif(temp-open_1==0):
+                        s_1 = s_1+j
+                    else:
+                        s_1 = s_1+bracket_1[open_1-temp]+j
+                        open_1 = temp
+    s_1 = s_1+bracket_1[open_1]
+    i+=1  
+    print("Case #%d:"%(i),s_1)
